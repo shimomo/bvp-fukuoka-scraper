@@ -34,5 +34,5 @@ jobs:
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        slug: BoatraceVentureProject/FukuokaScraper
+        slug: shimomo/bvp-fukuoka-scraper
         files: build/coverage-xml/coverage.xml
