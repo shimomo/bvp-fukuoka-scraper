@@ -48,7 +48,7 @@ class ForecastScraper extends BaseScraper
         foreach ($forecasts as $key => $value) {
             if (empty($value)) {
                 throw new \RuntimeException(
-                    __METHOD__ . "() - The specified key '{$key}' is not found " .
+                    __CLASS__ . "::scrape() - The specified key '{$key}' is not found " .
                     "in the content of the URL: '{$crawlerUrl}'."
                 );
             }
@@ -97,7 +97,7 @@ class ForecastScraper extends BaseScraper
         foreach ($forecasts as $key => $value) {
             if (empty($value)) {
                 throw new \RuntimeException(
-                    __METHOD__ . "() - The specified key '{$key}' is not found " .
+                    __CLASS__ . "::scrape() - The specified key '{$key}' is not found " .
                     "in the content of the URL: '{$crawlerUrl}'."
                 );
             }
