@@ -13,22 +13,22 @@ interface ScraperCoreInterface extends ScraperContractInterface
 {
     /**
      * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $date
+     * @param  \Carbon\CarbonInterface|string|null  $raceDate
      * @return array
      */
-    public function scrapeComments(string|int $raceNumber, CarbonInterface|string|null $date = null): array;
+    public function scrapeComments(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array;
 
     /**
      * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $date
+     * @param  \Carbon\CarbonInterface|string|null  $raceDate
      * @return array
      */
-    public function scrapeForecasts(string|int $raceNumber, CarbonInterface|string|null $date = null): array;
+    public function scrapeForecasts(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array;
 
     /**
      * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $date
+     * @param  \Carbon\CarbonInterface|string|null  $raceDate
      * @return array
      */
-    public function scrapeTimes(string|int $raceNumber, CarbonInterface|string|null $date = null): array;
+    public function scrapeTimes(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array;
 }

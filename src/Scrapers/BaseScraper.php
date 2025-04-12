@@ -32,8 +32,8 @@ abstract class BaseScraper implements BaseScraperInterface
 
     /**
      * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $date
+     * @param  \Carbon\CarbonInterface|string|null  $raceDate
      * @return array
      */
-    abstract public function scrape(string|int $raceNumber, CarbonInterface|string|null $date = null): array;
+    abstract public function scrape(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array;
 }

@@ -14,8 +14,8 @@ interface ForecastScraperInterface extends ScraperContractInterface
 {
     /**
      * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $date
+     * @param  \Carbon\CarbonInterface|string|null  $raceDate
      * @return array
      */
-    public function scrape(string|int $raceNumber, CarbonInterface|string|null $date = null): array;
+    public function scrape(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array;
 }
