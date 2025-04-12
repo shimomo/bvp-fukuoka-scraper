@@ -11,9 +11,9 @@
     ],
     "require": {
         "php": "^8.1",
-        "bvp/converter": "^2.0",
-        "bvp/scraper-core": "^1.1",
-        "bvp/trimmer": "^2.0",
+        "bvp/converter": "^4.0",
+        "bvp/scraper-core": "^4.0",
+        "bvp/trimmer": "^4.0",
         "nesbot/carbon": "^2.63 || ^3.0"
     },
     "require-dev": {
