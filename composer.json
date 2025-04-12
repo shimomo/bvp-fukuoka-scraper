@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "bvp/converter": "^4.0",
         "bvp/scraper-core": "^4.0",
         "bvp/trimmer": "^4.0",
