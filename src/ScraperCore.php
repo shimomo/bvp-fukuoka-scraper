@@ -34,32 +34,32 @@ class ScraperCore implements ScraperCoreInterface
     }
 
     /**
-     * @param  string|int                           $raceCode
+     * @param  string|int                           $raceNumber
      * @param  \Carbon\CarbonInterface|string|null  $date
      * @return array
      */
-    public function scrapeComments(string|int $raceCode, CarbonInterface|string|null $date = null): array
+    public function scrapeComments(string|int $raceNumber, CarbonInterface|string|null $date = null): array
     {
-        return ($this->instances['CommentScraper'] ??= new CommentScraper())->scrape($raceCode, $date);
+        return ($this->instances['CommentScraper'] ??= new CommentScraper())->scrape($raceNumber, $date);
     }
 
     /**
-     * @param  string|int                           $raceCode
+     * @param  string|int                           $raceNumber
      * @param  \Carbon\CarbonInterface|string|null  $date
      * @return array
      */
-    public function scrapeForecasts(string|int $raceCode, CarbonInterface|string|null $date = null): array
+    public function scrapeForecasts(string|int $raceNumber, CarbonInterface|string|null $date = null): array
     {
-        return ($this->instances['ForecastScraper'] ??= new ForecastScraper())->scrape($raceCode, $date);
+        return ($this->instances['ForecastScraper'] ??= new ForecastScraper())->scrape($raceNumber, $date);
     }
 
     /**
-     * @param  string|int                           $raceCode
+     * @param  string|int                           $raceNumber
      * @param  \Carbon\CarbonInterface|string|null  $date
      * @return array
      */
-    public function scrapeTimes(string|int $raceCode, CarbonInterface|string|null $date = null): array
+    public function scrapeTimes(string|int $raceNumber, CarbonInterface|string|null $date = null): array
     {
-        return ($this->instances['TimeScraper'] ??= new TimeScraper())->scrape($raceCode, $date);
+        return ($this->instances['TimeScraper'] ??= new TimeScraper())->scrape($raceNumber, $date);
     }
 }

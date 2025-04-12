@@ -15,29 +15,29 @@ use Carbon\CarbonInterface;
 class CommentScraper extends BaseScraper implements CommentScraperInterface
 {
     /**
-     * @param  string|int                           $raceCode
+     * @param  string|int                           $raceNumber
      * @param  \Carbon\CarbonInterface|string|null  $date
      * @return array
      */
-    public function scrape(string|int $raceCode, CarbonInterface|string|null $date = null): array
+    public function scrape(string|int $raceNumber, CarbonInterface|string|null $date = null): array
     {
         return array_merge(...[
-            $this->scrapeYesterday($raceCode, $date),
-            $this->scrapeToday($raceCode, $date),
+            $this->scrapeYesterday($raceNumber, $date),
+            $this->scrapeToday($raceNumber, $date),
         ]);
     }
 
     /**
-     * @param  string|int                           $raceCode
+     * @param  string|int                           $raceNumber
      * @param  \Carbon\CarbonInterface|string|null  $date
      * @return array
      *
      * @throws \RuntimeException
      */
-    private function scrapeYesterday(string|int $raceCode, CarbonInterface|string|null $date = null): array
+    private function scrapeYesterday(string|int $raceNumber, CarbonInterface|string|null $date = null): array
     {
         $date = Carbon::parse($date ?? 'today')->format('Ymd');
-        $crawlerUrl = sprintf($this->baseUrl, 'syussou', $date, $raceCode);
+        $crawlerUrl = sprintf($this->baseUrl, 'syussou', $date, $raceNumber);
         $crawler = Scraper::getInstance()->request('GET', $crawlerUrl);
         $comments = Scraper::filterByKeys($crawler, [
             '.com-rname',
@@ -70,11 +70,11 @@ class CommentScraper extends BaseScraper implements CommentScraperInterface
     }
 
     /**
-     * @param  string|int                           $raceCode
+     * @param  string|int                           $raceNumber
      * @param  \Carbon\CarbonInterface|string|null  $date
      * @return array
      */
-    private function scrapeToday(string|int $raceCode, CarbonInterface|string|null $date = null): array
+    private function scrapeToday(string|int $raceNumber, CarbonInterface|string|null $date = null): array
     {
         return [];
     }
