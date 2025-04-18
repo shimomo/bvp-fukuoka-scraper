@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper/graph/badge.svg?token=N52lcvZHGj)](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper)
 [![PHP Version Require](https://poser.pugx.org/bvp/fukuoka-scraper/require/php)](https://packagist.org/packages/bvp/fukuoka-scraper)
 [![Latest Stable Version](https://poser.pugx.org/bvp/fukuoka-scraper/v/stable)](https://packagist.org/packages/bvp/fukuoka-scraper)
-[![Latest Unstable Version](https://poser.pugx.org/bvp/fukuoka-scraper/v/unstable)](https://packagist.org/packages/bvp/fukuoka-scraper)
+[![Latest Unstable Version](https://poser.pugx.org/bvp/fukuoka-scraper/v/unstable)](https://packagist.org/packages/bvp/fukuoka-scraper#4.x-dev)
 [![License](https://poser.pugx.org/bvp/fukuoka-scraper/license)](https://packagist.org/packages/bvp/fukuoka-scraper)
 
 ## Installation
