@@ -46,9 +46,9 @@ class CommentScraper extends BaseScraper implements CommentScraperInterface
             $racerYesterdayComment = $comments['.box'][$boatNumber * 2 - 1] ?? '';
             $racerYesterdayComment = Normalizer::normalize($racerYesterdayComment);
 
-            $response['boat_number_' . $boatNumber . '_racer_name'] = $racerName;
-            $response['boat_number_' . $boatNumber . '_racer_yesterday_comment_label'] = $racerYesterdayCommentLabel;
-            $response['boat_number_' . $boatNumber . '_racer_yesterday_comment'] = $racerYesterdayComment;
+            $response["boat_number_{$boatNumber}_racer_name"] = $racerName;
+            $response["boat_number_{$boatNumber}_racer_yesterday_comment_label"] = $racerYesterdayCommentLabel;
+            $response["boat_number_{$boatNumber}_racer_yesterday_comment"] = $racerYesterdayComment;
         }
 
         return $response;

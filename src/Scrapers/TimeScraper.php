@@ -52,11 +52,11 @@ class TimeScraper extends BaseScraper implements TimeScraperInterface
             $racerTurnTime = Normalizer::normalize($times['.col8'][$boatNumber] ?? 0.0);
             $racerStraightTime = Normalizer::normalize($times['.col9'][$boatNumber] ?? 0.0);
 
-            $response['boat_number_' . $boatNumber . '_racer_name'] = $racerName;
-            $response['boat_number_' . $boatNumber . '_racer_exhibition_time'] = $racerExhibitionTime;
-            $response['boat_number_' . $boatNumber . '_racer_lap_time'] = $racerLapTime;
-            $response['boat_number_' . $boatNumber . '_racer_turn_time'] = $racerTurnTime;
-            $response['boat_number_' . $boatNumber . '_racer_straight_time'] = $racerStraightTime;
+            $response["boat_number_{$boatNumber}_racer_name"] = $racerName;
+            $response["boat_number_{$boatNumber}_racer_exhibition_time"] = $racerExhibitionTime;
+            $response["boat_number_{$boatNumber}_racer_lap_time"] = $racerLapTime;
+            $response["boat_number_{$boatNumber}_racer_turn_time"] = $racerTurnTime;
+            $response["boat_number_{$boatNumber}_racer_straight_time"] = $racerStraightTime;
         }
 
         return $response;
