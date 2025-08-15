@@ -69,7 +69,6 @@ print_r($comments);
 <summary>取得結果</summary>
 
 ```php
-/*
 Array
 (
     [boat_number_1_racer_name] => 渡辺浩司
@@ -91,7 +90,6 @@ Array
     [boat_number_6_racer_yesterday_comment_label] => 前日コメント
     [boat_number_6_racer_yesterday_comment] => エンジン自体は問題ないと思う。
 )
-*/
 ```
 </details>
 
@@ -107,7 +105,6 @@ print_r($forecasts);
 <summary>取得結果</summary>
 
 ```php
-/*
 Array
 (
     [reporter_yesterday_comment_label] => 記者予想 前日コメント
@@ -138,7 +135,6 @@ Array
         )
 
 )
-*/
 ```
 
 </details>
@@ -155,7 +151,6 @@ print_r($times);
 <summary>取得結果</summary>
 
 ```php
-/*
 Array
 (
     [boat_number_1_racer_name] => 渡辺浩司
@@ -189,7 +184,6 @@ Array
     [boat_number_6_racer_turn_time] => 6.07
     [boat_number_6_racer_straight_time] => 7.57
 )
-*/
 ```
 
 </details>
