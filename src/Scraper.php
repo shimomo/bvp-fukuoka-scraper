@@ -41,7 +41,7 @@ class Scraper implements ScraperInterface
     }
 
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface
+     * @param  \BVP\FukuokaScraper\ScraperCoreInterface|null  $scraperCore
      * @return \BVP\FukuokaScraper\ScraperInterface
      */
     public static function getInstance(?ScraperCoreInterface $scraperCore = null): ScraperInterface
@@ -50,7 +50,7 @@ class Scraper implements ScraperInterface
     }
 
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface
+     * @param  \BVP\FukuokaScraper\ScraperCoreInterface|null  $scraperCore
      * @return \BVP\FukuokaScraper\ScraperInterface
      */
     public static function createInstance(?ScraperCoreInterface $scraperCore = null): ScraperInterface
