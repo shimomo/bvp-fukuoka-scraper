@@ -21,22 +21,10 @@ class CommentScraper extends BaseScraper implements CommentScraperInterface
      */
     public function scrape(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array
     {
-        $raceDate = Carbon::parse($raceDate ?? 'today')->format('Ymd');
-        $crawlerUrl = sprintf($this->baseUrl, 'syussou', $raceDate, $raceNumber);
-        $crawler = Scraper::getInstance()->request('GET', $crawlerUrl);
-        $comments = Scraper::filterByKeys($crawler, [
-            '.com-rname',
-            '.box',
-        ]);
-
-        foreach ($comments as $key => $value) {
-            if (empty($value)) {
-                throw new \RuntimeException(
-                    __METHOD__ . "() - The specified key '{$key}' is not found " .
-                    "in the content of the URL: '{$crawlerUrl}'."
-                );
-            }
-        }
+        $raceUrl = $this->generateRaceUrl('syussou', $raceNumber, $raceDate);
+        $crawler = $this->requestPage($raceUrl);
+        $filteredData = $this->filterDataByKeys($crawler, ['.com-rname', '.box']);
+        $comments = $this->validateData($filteredData, $raceUrl);
 
         $response = [];
         foreach (range(1, 6) as $boatNumber) {

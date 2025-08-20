@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BVP\FukuokaScraper\Scrapers;
 
 use BVP\ScraperCore\Normalizer;
-use BVP\ScraperCore\Scraper;
 use Carbon\CarbonImmutable as Carbon;
 use Carbon\CarbonInterface;
 
@@ -36,23 +35,10 @@ class ForecastScraper extends BaseScraper
      */
     private function scrapeYesterday(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array
     {
-        $raceDate = Carbon::parse($raceDate ?? 'today')->format('Ymd');
-        $crawlerUrl = sprintf($this->baseUrl, 'syussou', $raceDate, $raceNumber);
-        $crawler = Scraper::getInstance()->request('GET', $crawlerUrl);
-        $forecasts = Scraper::filterByKeys($crawler, [
-            '.sinnyu',
-            '.yComment > tr:nth-child(2) > td',
-            '.jishindo > tr:nth-child(2) > td',
-        ]);
-
-        foreach ($forecasts as $key => $value) {
-            if (empty($value)) {
-                throw new \RuntimeException(
-                    __CLASS__ . "::scrape() - The specified key '{$key}' is not found " .
-                    "in the content of the URL: '{$crawlerUrl}'."
-                );
-            }
-        }
+        $raceUrl = $this->generateRaceUrl('syussou', $raceNumber, $raceDate);
+        $crawler = $this->requestPage($raceUrl);
+        $filteredData = $this->filterDataByKeys($crawler, ['.sinnyu', '.yComment > tr:nth-child(2) > td', '.jishindo > tr:nth-child(2) > td']);
+        $forecasts = $this->validateData($filteredData, $raceUrl);
 
         $courses = explode(' ', $forecasts['.sinnyu'][0]);
         if (($position = strrpos($courses[2], 'S')) !== false) {
@@ -86,22 +72,10 @@ class ForecastScraper extends BaseScraper
      */
     private function scrapeToday(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array
     {
-        $raceDate = Carbon::parse($raceDate ?? 'today')->format('Ymd');
-        $crawlerUrl = sprintf($this->baseUrl, 'cyokuzen', $raceDate, $raceNumber);
-        $crawler = Scraper::getInstance()->request('GET', $crawlerUrl);
-        $forecasts = Scraper::filterByKeys($crawler, [
-            '.cComment__title',
-            '.cComment__come',
-        ]);
-
-        foreach ($forecasts as $key => $value) {
-            if (empty($value)) {
-                throw new \RuntimeException(
-                    __CLASS__ . "::scrape() - The specified key '{$key}' is not found " .
-                    "in the content of the URL: '{$crawlerUrl}'."
-                );
-            }
-        }
+        $raceUrl = $this->generateRaceUrl('cyokuzen', $raceNumber, $raceDate);
+        $crawler = $this->requestPage($raceUrl);
+        $filteredData = $this->filterDataByKeys($crawler, ['.cComment__title', '.cComment__come']);
+        $forecasts = $this->validateData($filteredData, $raceUrl);
 
         $focus = [];
         $focusIndex = 0;
@@ -121,7 +95,7 @@ class ForecastScraper extends BaseScraper
         if (empty($focus)) {
             throw new \RuntimeException(
                 __METHOD__ . "() - The specified key '.cComment__num' is not found " .
-                "in the content of the URL: '{$crawlerUrl}'."
+                "in the content of the URL: '{$raceUrl}'."
             );
         }
 

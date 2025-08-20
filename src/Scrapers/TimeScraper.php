@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace BVP\FukuokaScraper\Scrapers;
 
 use BVP\ScraperCore\Normalizer;
-use BVP\ScraperCore\Scraper;
-use Carbon\CarbonImmutable as Carbon;
 use Carbon\CarbonInterface;
 
 /**
@@ -23,25 +21,10 @@ class TimeScraper extends BaseScraper implements TimeScraperInterface
      */
     public function scrape(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array
     {
-        $raceDate = Carbon::parse($raceDate ?? 'today')->format('Ymd');
-        $crawlerUrl = sprintf($this->baseUrl, 'tenji_info', $raceDate, $raceNumber);
-        $crawler = Scraper::getInstance()->request('GET', $crawlerUrl);
-        $times = Scraper::filterByKeys($crawler, [
-            '.com-rname',
-            '.col6',
-            '.col7',
-            '.col8',
-            '.col9',
-        ]);
-
-        foreach ($times as $key => $value) {
-            if (empty($value)) {
-                throw new \RuntimeException(
-                    __METHOD__ . "() - The specified key '{$key}' is not found " .
-                    "in the content of the URL: '{$crawlerUrl}'."
-                );
-            }
-        }
+        $raceUrl = $this->generateRaceUrl('tenji_info', $raceNumber, $raceDate);
+        $crawler = $this->requestPage($raceUrl);
+        $filteredData = $this->filterDataByKeys($crawler, ['.com-rname', '.col6', '.col7', '.col8', '.col9']);
+        $times = $this->validateData($filteredData, $raceUrl);
 
         $response = [];
         foreach (range(1, 6) as $boatNumber) {
