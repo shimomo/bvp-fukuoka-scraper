@@ -21,7 +21,7 @@
     },
     "require": {
         "php": "^8.2",
-        "bvp/scraper-core": "^5.0",
+        "bvp/scraper-core": "^5.3",
         "nesbot/carbon": "^2.63 || ^3.0"
     },
     "require-dev": {
