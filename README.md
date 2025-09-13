@@ -10,11 +10,13 @@
 BVP Fukuoka Scraper は、ボートレース福岡の公式サイトから選手コメント、記者予想、オリジナル展示タイムをスクレイピングするための PHP ライブラリです。
 
 ## 📦 Requirements
-- PHP ^8.2
-- bvp/scraper-core: ^5.0
+
+- PHP: ^8.2
+- bvp/scraper-core: ^5.3
 - nesbot/carbon: ^2.63 || ^3.0
 
 ## 💾 Installation
+
 ```bash
 composer require bvp/fukuoka-scraper
 ```
@@ -25,7 +27,7 @@ composer require bvp/fukuoka-scraper
 
 | メソッド | 説明 | 引数 |
 |---|---|---|
-| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 選手コメントを取得 | `$raceNumber` : 1〜12<br>`$raceDate` : Carbon対応日付文字列または<br>&nbsp;&nbsp;&nbsp;&nbsp;Carbonインスタンス（省略時は当日） |
+| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 選手コメントを取得 | `$raceNumber` : 1〜12<br>`$raceDate` : Carbon対応日付文字列または<br>&nbsp;&nbsp;&nbsp;&nbsp;Carbonインスタンス（省略時は本日） |
 | `Scraper::scrapeForecasts(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 記者予想を取得 | 同上 |
 | `Scraper::scrapeTimes(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | オリジナル展示タイムを取得 | 同上 |
 
@@ -59,6 +61,7 @@ print_r($times);
 ```
 
 ### Scraper::scrapeComments()
+
 ```php
 // 例: ボートレース福岡の公式サイトから2025年01月03日の1レースの選手コメントを取得
 $comments = Scraper::scrapeComments(1, '2025-01-03');
@@ -91,6 +94,7 @@ Array
     [boat_number_6_racer_yesterday_comment] => エンジン自体は問題ないと思う。
 )
 ```
+
 </details>
 
 ### Scraper::scrapeForecasts()
@@ -189,8 +193,10 @@ Array
 </details>
 
 ## ⚠️ Notes
+
 - **スクレイピング対象の公式サイトの構造が変更された場合**、正しくデータを取得できなくなる可能性があります。
 - 利用時は対象サイトの利用規約を遵守してください。
 
 ## 📄 License
+
 BVP Fukuoka Scraper は [MIT license](LICENSE) の元で公開されています。
