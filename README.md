@@ -1,6 +1,6 @@
 # BVP Fukuoka Scraper
 
-[![tests](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/tests.yml/badge.svg)](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/tests.yml)
+[![test](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/test.yml/badge.svg)](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper/graph/badge.svg?token=N52lcvZHGj)](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper)
 [![php](https://poser.pugx.org/bvp/fukuoka-scraper/require/php)](https://packagist.org/packages/bvp/fukuoka-scraper)
 [![stable](https://poser.pugx.org/bvp/fukuoka-scraper/v/stable)](https://packagist.org/packages/bvp/fukuoka-scraper)
@@ -27,7 +27,7 @@ composer require bvp/fukuoka-scraper
 
 | メソッド | 説明 | 引数 |
 |---|---|---|
-| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 選手コメントを取得 | `$raceNumber` : 1〜12<br>`$raceDate` : Carbon対応日付文字列または<br>&nbsp;&nbsp;&nbsp;&nbsp;Carbonインスタンス（省略時は本日） |
+| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 選手コメントを取得 | `$raceNumber` : 1〜12<br>`$raceDate` : Carbon対応日付文字列または<br>&nbsp;&nbsp;&nbsp;&nbsp;Carbonインスタンス（省略時は当日） |
 | `Scraper::scrapeForecasts(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 記者予想を取得 | 同上 |
 | `Scraper::scrapeTimes(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | オリジナル展示タイムを取得 | 同上 |
 
