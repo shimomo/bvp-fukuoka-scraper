@@ -7,4 +7,7 @@ namespace BVP\FukuokaScraper;
 /**
  * @author shimomo
  */
-interface ScraperContractInterface {}
+interface ScraperContractInterface
+{
+    //
+}

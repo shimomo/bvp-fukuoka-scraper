@@ -53,8 +53,11 @@ abstract class BaseScraper implements BaseScraperInterface
      * @param  \Carbon\CarbonInterface|string|null  $raceDate
      * @return string
      */
-    final protected function generateRaceUrl(string $pageType, string|int $raceNumber, CarbonInterface|string|null $raceDate = null): string
-    {
+    final protected function generateRaceUrl(
+        string $pageType,
+        string|int $raceNumber,
+        CarbonInterface|string|null $raceDate = null
+    ): string {
         $raceDate = Carbon::parse($raceDate ?? 'today')->format('Ymd');
         return sprintf($this->baseUrl, $pageType, $raceDate, $raceNumber);
     }

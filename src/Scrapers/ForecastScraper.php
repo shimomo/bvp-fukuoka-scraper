@@ -37,7 +37,11 @@ class ForecastScraper extends BaseScraper
     {
         $raceUrl = $this->generateRaceUrl('syussou', $raceNumber, $raceDate);
         $crawler = $this->requestPage($raceUrl);
-        $filteredData = $this->filterDataByKeys($crawler, ['.sinnyu', '.yComment > tr:nth-child(2) > td', '.jishindo > tr:nth-child(2) > td']);
+        $filteredData = $this->filterDataByKeys($crawler, [
+            '.sinnyu',
+            '.yComment > tr:nth-child(2) > td',
+            '.jishindo > tr:nth-child(2) > td',
+        ]);
         $forecasts = $this->validateData($filteredData, $raceUrl);
 
         $courses = explode(' ', $forecasts['.sinnyu'][0]);
