@@ -1,5 +1,6 @@
 # BVP Fukuoka Scraper
 
+[![security](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/security.yml/badge.svg)](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/security.yml)
 [![test](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/test.yml/badge.svg)](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper/graph/badge.svg?token=N52lcvZHGj)](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper)
 [![php](https://poser.pugx.org/bvp/fukuoka-scraper/require/php)](https://packagist.org/packages/bvp/fukuoka-scraper)
