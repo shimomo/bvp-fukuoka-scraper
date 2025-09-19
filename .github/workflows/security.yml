@@ -1,0 +1,48 @@
+name: security
+
+on:
+  push:
+    branches:
+      - '*.x'
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security:
+    name: Security on PHP ${{ matrix.php-version }} (Ubuntu 24.04)
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        php-version:
+          - '8.2'
+          - '8.3'
+          - '8.4'
+    steps:
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Cache Composer Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress --dev
+
+      - name: Run Composer Audit
+        env:
+          COMPOSER_PROCESS_TIMEOUT: 300
+        run: composer audit
