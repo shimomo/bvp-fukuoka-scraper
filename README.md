@@ -1,14 +1,13 @@
-# BVP Fukuoka Scraper
+# Fukuoka Scraper for Boatrace Venture Project
 
 [![security](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/security.yml/badge.svg)](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/security.yml)
 [![test](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/test.yml/badge.svg)](https://github.com/shimomo/bvp-fukuoka-scraper/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper/graph/badge.svg?token=N52lcvZHGj)](https://codecov.io/gh/shimomo/bvp-fukuoka-scraper)
 [![php](https://poser.pugx.org/bvp/fukuoka-scraper/require/php)](https://packagist.org/packages/bvp/fukuoka-scraper)
 [![stable](https://poser.pugx.org/bvp/fukuoka-scraper/v/stable)](https://packagist.org/packages/bvp/fukuoka-scraper)
-[![unstable](https://poser.pugx.org/bvp/fukuoka-scraper/v/unstable)](https://packagist.org/packages/bvp/fukuoka-scraper)
 [![license](https://poser.pugx.org/bvp/fukuoka-scraper/license)](https://packagist.org/packages/bvp/fukuoka-scraper)
 
-BVP Fukuoka Scraper は、ボートレース福岡の公式サイトから選手コメント、記者予想、オリジナル展示タイムをスクレイピングするための PHP ライブラリです。
+Fukuoka Scraper は、ボートレース福岡の公式サイトから選手コメント、記者予想、オリジナル展示タイムをスクレイピングするための PHP ライブラリです。
 
 ## 📦 Requirements
 
@@ -200,4 +199,4 @@ Array
 
 ## 📄 License
 
-BVP Fukuoka Scraper は [MIT license](LICENSE) の元で公開されています。
+Fukuoka Scraper は [MIT license](LICENSE) の元で公開されています。
