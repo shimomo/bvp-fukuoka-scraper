@@ -38,7 +38,7 @@ jobs:
           coverage: pcov
 
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Require PHPUnit ${{ matrix.phpunit-version }}
         run: composer require --dev phpunit/phpunit:^${{ matrix.phpunit-version }} --with-all-dependencies
