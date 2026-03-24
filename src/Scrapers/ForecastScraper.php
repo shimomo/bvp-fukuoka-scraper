@@ -76,8 +76,8 @@ final class ForecastScraper extends BaseScraper
             $crawler = $this->request($url);
             $data = $this->filterByKeys($crawler, [
                 '.sinnyu',
-                '.yComment > tbody > tr:nth-child(2) > td',
-                '.jishindo > tbody > tr:nth-child(2) > td',
+                '.yComment tr:nth-child(2) > td',
+                '.jishindo tr:nth-child(2) > td',
             ]);
             $forecasts = $this->validate($data, ['url' => $url]);
 
@@ -88,7 +88,7 @@ final class ForecastScraper extends BaseScraper
 
             $reporterYesterdayCommentLabel = '記者予想 前日コメント';
             $reporterYesterdayCommentText = Normalizer::normalize(
-                $forecasts['.yComment > tbody > tr:nth-child(2) > td'][0] ?? ''
+                $forecasts['.yComment tr:nth-child(2) > td'][0] ?? ''
             );
             if (!is_string($reporterYesterdayCommentText) || $reporterYesterdayCommentText === '') {
                 $reporterYesterdayCommentText = null;
@@ -96,7 +96,7 @@ final class ForecastScraper extends BaseScraper
 
             $reporterYesterdayReliabilityLabel = '記者予想 前日信頼度';
             $reporterYesterdayReliabilityText = Normalizer::normalize(
-                $forecasts['.jishindo > tbody > tr:nth-child(2) > td'][0] ?? ''
+                $forecasts['.jishindo tr:nth-child(2) > td'][0] ?? ''
             );
             if (!is_string($reporterYesterdayReliabilityText) || $reporterYesterdayReliabilityText === '') {
                 $reporterYesterdayReliabilityText = null;
