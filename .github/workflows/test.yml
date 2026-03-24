@@ -20,28 +20,20 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
         phpunit-version:
-          - '10.1'
-          - '11.1'
           - '12.0'
-        exclude:
-          - php-version: '8.2'
-            phpunit-version: '12.0'
-          - php-version: '8.5'
-            phpunit-version: '10.1'
     steps:
       - name: Setup PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f
         with:
           php-version: ${{ matrix.php-version }}
           coverage: pcov
 
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Require PHPUnit ${{ matrix.phpunit-version }}
         run: composer require --dev phpunit/phpunit:^${{ matrix.phpunit-version }} --with-all-dependencies
@@ -56,7 +48,7 @@ jobs:
         run: vendor/bin/phpunit --configuration=phpunit.xml.dist --coverage-xml=build/coverage-xml
 
       - name: Upload Code Coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/coverage-xml/coverage.xml
