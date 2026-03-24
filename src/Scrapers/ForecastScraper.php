@@ -87,13 +87,17 @@ final class ForecastScraper extends BaseScraper
             }
 
             $reporterYesterdayCommentLabel = '記者予想 前日コメント';
-            $reporterYesterdayCommentText = Normalizer::normalize($forecasts['.yComment > tbody > tr:nth-child(2) > td'][0] ?? '');
+            $reporterYesterdayCommentText = Normalizer::normalize(
+                $forecasts['.yComment > tbody > tr:nth-child(2) > td'][0] ?? ''
+            );
             if (!is_string($reporterYesterdayCommentText) || $reporterYesterdayCommentText === '') {
                 $reporterYesterdayCommentText = null;
             }
 
             $reporterYesterdayReliabilityLabel = '記者予想 前日信頼度';
-            $reporterYesterdayReliabilityText = Normalizer::normalize($forecasts['.jishindo > tbody > tr:nth-child(2) > td'][0] ?? '');
+            $reporterYesterdayReliabilityText = Normalizer::normalize(
+                $forecasts['.jishindo > tbody > tr:nth-child(2) > td'][0] ?? ''
+            );
             if (!is_string($reporterYesterdayReliabilityText) || $reporterYesterdayReliabilityText === '') {
                 $reporterYesterdayReliabilityText = null;
             }
