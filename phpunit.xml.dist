@@ -5,6 +5,8 @@
     colors="true"
     processIsolation="false"
     stopOnFailure="false"
+    displayDetailsOnPhpunitNotices="true"
+    displayDetailsOnPhpunitDeprecations="true"
 >
     <testsuites>
         <testsuite name="Boatrace Venture Project">

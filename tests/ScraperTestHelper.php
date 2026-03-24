@@ -7,28 +7,24 @@ namespace BVP\FukuokaScraper\Tests;
 use Carbon\CarbonImmutable as Carbon;
 
 /**
- * テスト用スクレイパー生成ヘルパー
- *
- * このクラスはテストで使用する Fixture HTML を読み込み、
- * HttpBrowser をモック化して任意のスクレイパーに注入します。
- *
  * @author shimomo
  */
 final class ScraperTestHelper
 {
     /**
-     * [レース番号, レース開催日] からフィクスチャのプレフィックスを生成
+     * @psalm-param array{\Carbon\CarbonInterface|non-empty-string|null, int<1, 12>} $data
+     * @psalm-return non-empty-string
      *
-     * @param  array{int|string, string}  $raceData
+     * @param array $data
      * @return string
      */
-    public static function generateFixturePrefix(array $raceData): string
+    public static function generateFixturePrefix(array $data): string
     {
-        [$raceNumber, $raceDate] = $raceData;
+        [$date, $number] = $data;
 
-        $formattedRaceDate = Carbon::parse($raceDate)->format('Ymd');
-        $formattedRaceNumber = str_pad((string) $raceNumber, 2, '0', STR_PAD_LEFT);
+        $formattedDate = Carbon::parse($date)->format('Ymd');
+        $formattedNumber = str_pad((string) $number, 2, '0', STR_PAD_LEFT);
 
-        return $formattedRaceDate . '_' . $formattedRaceNumber;
+        return $formattedDate . '_' . $formattedNumber;
     }
 }

@@ -4,16 +4,34 @@ declare(strict_types=1);
 
 namespace BVP\FukuokaScraper\Tests;
 
-use BVP\FukuokaScraper\Scraper;
-use BVP\FukuokaScraper\ScraperInterface;
+use BVP\FukuokaScraper\ScraperDispatcher;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author shimomo
  */
-final class ScraperTest extends TestCase
+final class ScraperDispatcherTest extends TestCase
 {
+    /**
+     * @psalm-suppress PropertyNotSetInConstructor
+     * @psalm-var \BVP\FukuokaScraper\ScraperDispatcher
+     *
+     * @var \BVP\FukuokaScraper\ScraperDispatcher
+     */
+    protected ScraperDispatcher $scraper;
+
+    /**
+     * @psalm-return void
+     *
+     * @return void
+     */
+    #[\Override]
+    protected function setUp(): void
+    {
+        $this->scraper = new ScraperDispatcher();
+    }
+
     /**
      * @psalm-param array{\Carbon\CarbonInterface|non-empty-string|null, int<1, 12>} $arguments
      * @psalm-param array<int<1, 12>, array{
@@ -28,7 +46,7 @@ final class ScraperTest extends TestCase
     #[DataProviderExternal(ScraperDataProvider::class, 'scrapeCommentsProvider')]
     public function testScrapeComments(array $arguments, array $expected): void
     {
-        $this->assertSame($expected, Scraper::scrapeComments(...$arguments));
+        $this->assertSame($expected, $this->scraper->scrapeComments(...$arguments));
     }
 
     /**
@@ -43,7 +61,7 @@ final class ScraperTest extends TestCase
     #[DataProviderExternal(ScraperDataProvider::class, 'scrapeForecastsProvider')]
     public function testScrapeForecasts(array $arguments, array $expected): void
     {
-        $this->assertSame($expected, Scraper::scrapeForecasts(...$arguments));
+        $this->assertSame($expected, $this->scraper->scrapeForecasts(...$arguments));
     }
 
     /**
@@ -60,7 +78,7 @@ final class ScraperTest extends TestCase
     #[DataProviderExternal(ScraperDataProvider::class, 'scrapeTimesProvider')]
     public function testScrapeTimes(array $arguments, array $expected): void
     {
-        $this->assertSame($expected, Scraper::scrapeTimes(...$arguments));
+        $this->assertSame($expected, $this->scraper->scrapeTimes(...$arguments));
     }
 
     /**
@@ -77,7 +95,7 @@ final class ScraperTest extends TestCase
             "`https://www.boatrace-fukuoka.com/modules/yosou/syussou.php?day=20250110&race=1`."
         );
 
-        Scraper::scrapeComments('2025-01-10', 1);
+        $this->scraper->scrapeComments('2025-01-10', 1);
     }
 
     /**
@@ -94,7 +112,7 @@ final class ScraperTest extends TestCase
             "`https://www.boatrace-fukuoka.com/modules/yosou/syussou.php?day=20250110&race=1`."
         );
 
-        Scraper::scrapeForecasts('2025-01-10', 1);
+        $this->scraper->scrapeForecasts('2025-01-10', 1);
     }
 
     /**
@@ -111,7 +129,7 @@ final class ScraperTest extends TestCase
             "`https://www.boatrace-fukuoka.com/modules/yosou/tenji_info.php?day=20250110&race=1`."
         );
 
-        Scraper::scrapeTimes('2025-01-10', 1);
+        $this->scraper->scrapeTimes('2025-01-10', 1);
     }
 
     /**
@@ -128,48 +146,6 @@ final class ScraperTest extends TestCase
         );
 
         /** @psalm-suppress UndefinedMagicMethod */
-        Scraper::ghost('2025-01-10', 1);
-    }
-
-    /**
-     * @psalm-return void
-     *
-     * @return void
-     */
-    public function testGetInstance(): void
-    {
-        Scraper::resetInstance();
-
-        $this->assertInstanceOf(ScraperInterface::class, Scraper::getInstance());
-    }
-
-    /**
-     * @psalm-return void
-     *
-     * @return void
-     */
-    public function testCreateInstance(): void
-    {
-        Scraper::resetInstance();
-
-        $this->assertInstanceOf(ScraperInterface::class, Scraper::createInstance());
-    }
-
-    /**
-     * @psalm-return void
-     *
-     * @return void
-     */
-    public function testResetInstance(): void
-    {
-        Scraper::resetInstance();
-
-        $instance1 = Scraper::getInstance();
-
-        Scraper::resetInstance();
-
-        $instance2 = Scraper::getInstance();
-
-        $this->assertNotSame($instance1, $instance2);
+        $this->scraper->ghost('2025-01-10', 1);
     }
 }

@@ -12,7 +12,7 @@ Fukuoka Scraper は、ボートレース福岡の公式サイトから選手コ�
 ## 📦 Requirements
 
 - PHP: ^8.2
-- bvp/scraper-core: ^5.3
+- bvp/scraper-core: ^6.1
 - nesbot/carbon: ^2.63 || ^3.0
 
 ## 💾 Installation
@@ -25,17 +25,23 @@ composer require bvp/fukuoka-scraper
 
 ### サポートメソッド一覧
 
-| メソッド | 説明 | 引数 |
-|---|---|---|
-| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 選手コメントを取得 | `$raceNumber` : 1〜12<br>`$raceDate` : Carbon対応日付文字列または<br>&nbsp;&nbsp;&nbsp;&nbsp;Carbonインスタンス（省略時は当日） |
-| `Scraper::scrapeForecasts(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | 記者予想を取得 | 同上 |
-| `Scraper::scrapeTimes(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceNumber,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`$raceDate = null`<br>`)` | オリジナル展示タイムを取得 | 同上 |
+| Method | Description |
+|---|---|
+| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | 選手コメントを取得<br> `$date` : 対象日を Carbon インスタンスまたは Carbon 対応日付文字列で指定（省略時は本日）<br>`$numbers` : 対象レース番号を 1〜12 の整数・数値文字列・配列で指定（省略時は全レース番号） |
+| `Scraper::scrapeForecasts(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | 記者予想を取得<br>同上 |
+| `Scraper::scrapeTimes(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | オリジナル展示タイムを取得<br>同上 |
 
-**$raceDate の例**
+**$date の例**
 - `'2025-01-01'`
 - `'2025/01/01'`
 - `'yesterday'`
 - `Carbon::now()->subDay()`
+
+**$numbers の例**
+- `1`
+- `'1'`
+- `[1, 2, 3]`
+- `['1', '2', '3']`
 
 ### 基本的な使い方
 
@@ -47,24 +53,20 @@ require __DIR__ . '/vendor/autoload.php';
 use BVP\FukuokaScraper\Scraper;
 
 // 選手コメントを取得
-$comments = Scraper::scrapeComments(1, '2025-01-03');
+$comments = Scraper::scrapeComments('2026-03-24', 1);
 
 // 記者予想を取得
-$forecasts = Scraper::scrapeForecasts(1, '2025-01-03');
+$forecasts = Scraper::scrapeForecasts('2026-03-24', 1);
 
 // オリジナル展示タイムを取得
-$times = Scraper::scrapeTimes(1, '2025-01-03');
-
-print_r($comments);
-print_r($forecasts);
-print_r($times);
+$times = Scraper::scrapeTimes('2026-03-24', 1);
 ```
 
 ### Scraper::scrapeComments()
 
 ```php
-// 例: ボートレース福岡の公式サイトから2025年01月03日の1レースの選手コメントを取得
-$comments = Scraper::scrapeComments(1, '2025-01-03');
+// 例: ボートレース福岡の公式サイトから2026年03月24日の1レースの選手コメントを取得
+$comments = Scraper::scrapeComments('2026-03-24', 1);
 print_r($comments);
 ```
 
@@ -74,24 +76,62 @@ print_r($comments);
 ```php
 Array
 (
-    [boat_number_1_racer_name] => 渡辺浩司
-    [boat_number_1_racer_yesterday_comment_label] => 前日コメント
-    [boat_number_1_racer_yesterday_comment] => 乗った感じは悪くないし、直線も悪くない。
-    [boat_number_2_racer_name] => 藤丸光一
-    [boat_number_2_racer_yesterday_comment_label] => 前日コメント
-    [boat_number_2_racer_yesterday_comment] => 起こしに違和感はない。足は普通くらい。
-    [boat_number_3_racer_name] => 松本真広
-    [boat_number_3_racer_yesterday_comment_label] => 前日コメント
-    [boat_number_3_racer_yesterday_comment] => 直線で下がることはない。ただ、回転不足。
-    [boat_number_4_racer_name] => 土井歩夢
-    [boat_number_4_racer_yesterday_comment_label] => 前日コメント
-    [boat_number_4_racer_yesterday_comment] => 手前の感じがあまり良くなかった。
-    [boat_number_5_racer_name] => 國弘翔平
-    [boat_number_5_racer_yesterday_comment_label] => 前日コメント
-    [boat_number_5_racer_yesterday_comment] => 出足や行き足は良さそう。伸びることはない。
-    [boat_number_6_racer_name] => 出畑孝成
-    [boat_number_6_racer_yesterday_comment_label] => 前日コメント
-    [boat_number_6_racer_yesterday_comment] => エンジン自体は問題ないと思う。
+    [1] => Array
+        (
+            [boats] => Array
+                (
+                    [1] => Array
+                        (
+                            [racer_boat_number] => 1
+                            [racer_name] => 長岡良也
+                            [racer_yesterday_comment_label] => 前日コメント
+                            [racer_yesterday_comment_text] => マシンは悪くない。また調整する。
+                        )
+
+                    [2] => Array
+                        (
+                            [racer_boat_number] => 2
+                            [racer_name] => 田邉亮蔵
+                            [racer_yesterday_comment_label] => 前日コメント
+                            [racer_yesterday_comment_text] => 悪い足ではないけど、特徴がない。
+                        )
+
+                    [3] => Array
+                        (
+                            [racer_boat_number] => 3
+                            [racer_name] => 福岡泉水
+                            [racer_yesterday_comment_label] => 前日コメント
+                            [racer_yesterday_comment_text] => ターン回りはいいけど、直線が微妙。
+                        )
+
+                    [4] => Array
+                        (
+                            [racer_boat_number] => 4
+                            [racer_name] => 宮嵜隆太郎
+                            [racer_yesterday_comment_label] => 前日コメント
+                            [racer_yesterday_comment_text] => スリットは変わらないが、全体的に少し弱い。
+                        )
+
+                    [5] => Array
+                        (
+                            [racer_boat_number] => 5
+                            [racer_name] => 吉田翔悟
+                            [racer_yesterday_comment_label] => 前日コメント
+                            [racer_yesterday_comment_text] => 出足や行き足が上向いた。伸びもいい状態。
+                        )
+
+                    [6] => Array
+                        (
+                            [racer_boat_number] => 6
+                            [racer_name] => 龍田真白
+                            [racer_yesterday_comment_label] => 前日コメント
+                            [racer_yesterday_comment_text] => 足も乗り心地も全体的に良くなった。
+                        )
+
+                )
+
+        )
+
 )
 ```
 
@@ -100,8 +140,8 @@ Array
 ### Scraper::scrapeForecasts()
 
 ```php
-// 例: ボートレース福岡の公式サイトから2025年01月03日の1レースの記者予想を取得
-$forecasts = Scraper::scrapeForecasts(1, '2025-01-03');
+// 例: ボートレース福岡の公式サイトから2026年03月24日の1レースの記者予想を取得
+$forecasts = Scraper::scrapeForecasts('2026-03-24', 1);
 print_r($forecasts);
 ```
 
@@ -111,31 +151,39 @@ print_r($forecasts);
 ```php
 Array
 (
-    [reporter_yesterday_comment_label] => 記者予想 前日コメント
-    [reporter_yesterday_comment] => 実力断然の渡辺がイン速攻で決着をつける。藤丸が的確に運んで追走一番手。土井、國弘はセンター連動で浮上したい。松本の先攻め一考。
-    [reporter_yesterday_reliability_label] => 記者予想 前日信頼度
-    [reporter_yesterday_reliability] => 60%
-    [reporter_yesterday_course_label] => 記者予想 前日コース
-    [reporter_yesterday_course] => 123/456
-    [reporter_today_comment_label] => 記者予想 当日コメント
-    [reporter_today_comment] => 周回展示は國弘のターン回りが良さそうだった。そのほかに目立つ足はない。渡辺がイン速攻で他艇完封へ。気配重視で國弘を2、3着で狙いたい。
-    [reporter_today_focus_label] => 記者予想 当日フォーカス
-    [reporter_today_focus] => Array
+    [1] => Array
         (
-            [0] => 1-5-24
-            [1] => 1-24-5
-        )
+            [reporter_yesterday_comment_label] => 記者予想 前日コメント
+            [reporter_yesterday_comment_text] => 出足関係はしっかりしている長岡を軸に推すが、スタートが鍵になる。パワー上位の吉田はもちろん、福岡や田邉、宮嵜も軽視はできない。
+            [reporter_yesterday_reliability_label] => 記者予想 前日信頼度
+            [reporter_yesterday_reliability_text] => 50%
+            [reporter_yesterday_course_label] => 記者予想 前日コース
+            [reporter_yesterday_course_text] => 123/456
+            [reporter_today_comment_label] => 記者予想 当日コメント
+            [reporter_today_comment_text] => 周回展示は吉田の動きが良く、長岡もターン回りは悪くない。F2の長岡を相手に行く気満々に映った田邉や宮嵜の一発警戒。
+            [reporter_today_focus_label] => 記者予想 当日フォーカス
+            [reporter_today_focus_list] => Array
+                (
+                    [0] => 1-5-23
+                    [1] => 1-23-5
+                    [2] => 2-5-34
+                    [3] => 4-5-23
+                )
 
-    [reporter_today_focus_exacta_label] => 記者予想 当日フォーカス 2連単
-    [reporter_today_focus_exacta] => Array
-        (
-        )
+            [reporter_today_focus_exacta_label] => 記者予想 当日フォーカス 2連単
+            [reporter_today_focus_exacta_list] => Array
+                (
+                )
 
-    [reporter_today_focus_trifecta_label] => 記者予想 当日フォーカス 3連単
-    [reporter_today_focus_trifecta] => Array
-        (
-            [0] => 1-5-24
-            [1] => 1-24-5
+            [reporter_today_focus_trifecta_label] => 記者予想 当日フォーカス 3連単
+            [reporter_today_focus_trifecta_list] => Array
+                (
+                    [0] => 1-5-23
+                    [1] => 1-23-5
+                    [2] => 2-5-34
+                    [3] => 4-5-23
+                )
+
         )
 
 )
@@ -146,8 +194,8 @@ Array
 ### Scraper::scrapeTimes()
 
 ```php
-// 例: ボートレース福岡の公式サイトから2025年01月03日の1レースのオリジナル展示タイムを取得
-$times = Scraper::scrapeTimes(1, '2025-01-03');
+// 例: ボートレース福岡の公式サイトから2026年03月24日の1レースのオリジナル展示タイムを取得
+$times = Scraper::scrapeTimes('2026-03-24', 1);
 print_r($times);
 ```
 
@@ -157,36 +205,74 @@ print_r($times);
 ```php
 Array
 (
-    [boat_number_1_racer_name] => 渡辺浩司
-    [boat_number_1_racer_exhibition_time] => 6.84
-    [boat_number_1_racer_lap_time] => 37.18
-    [boat_number_1_racer_turn_time] => 5.48
-    [boat_number_1_racer_straight_time] => 7.67
-    [boat_number_2_racer_name] => 藤丸光一
-    [boat_number_2_racer_exhibition_time] => 6.84
-    [boat_number_2_racer_lap_time] => 38.12
-    [boat_number_2_racer_turn_time] => 5.44
-    [boat_number_2_racer_straight_time] => 7.63
-    [boat_number_3_racer_name] => 松本真広
-    [boat_number_3_racer_exhibition_time] => 6.89
-    [boat_number_3_racer_lap_time] => 37.86
-    [boat_number_3_racer_turn_time] => 5.72
-    [boat_number_3_racer_straight_time] => 7.71
-    [boat_number_4_racer_name] => 土井歩夢
-    [boat_number_4_racer_exhibition_time] => 6.88
-    [boat_number_4_racer_lap_time] => 38.57
-    [boat_number_4_racer_turn_time] => 5.67
-    [boat_number_4_racer_straight_time] => 7.63
-    [boat_number_5_racer_name] => 國弘翔平
-    [boat_number_5_racer_exhibition_time] => 6.84
-    [boat_number_5_racer_lap_time] => 38.2
-    [boat_number_5_racer_turn_time] => 5.97
-    [boat_number_5_racer_straight_time] => 7.6
-    [boat_number_6_racer_name] => 出畑孝成
-    [boat_number_6_racer_exhibition_time] => 6.93
-    [boat_number_6_racer_lap_time] => 37.77
-    [boat_number_6_racer_turn_time] => 6.07
-    [boat_number_6_racer_straight_time] => 7.57
+    [1] => Array
+        (
+            [boats] => Array
+                (
+                    [1] => Array
+                        (
+                            [racer_boat_number] => 1
+                            [racer_name] => 長岡良也
+                            [racer_exhibition_time] => 6.83
+                            [racer_lap_time] => 37.13
+                            [racer_turn_time] => 5.44
+                            [racer_straight_time] => 7.67
+                        )
+
+                    [2] => Array
+                        (
+                            [racer_boat_number] => 2
+                            [racer_name] => 田邉亮蔵
+                            [racer_exhibition_time] => 6.81
+                            [racer_lap_time] => 36.95
+                            [racer_turn_time] => 5.57
+                            [racer_straight_time] => 7.63
+                        )
+
+                    [3] => Array
+                        (
+                            [racer_boat_number] => 3
+                            [racer_name] => 福岡泉水
+                            [racer_exhibition_time] => 6.85
+                            [racer_lap_time] => 37.4
+                            [racer_turn_time] => 5.46
+                            [racer_straight_time] => 7.7
+                        )
+
+                    [4] => Array
+                        (
+                            [racer_boat_number] => 4
+                            [racer_name] => 宮嵜隆太郎
+                            [racer_exhibition_time] => 6.88
+                            [racer_lap_time] => 37.7
+                            [racer_turn_time] => 5.67
+                            [racer_straight_time] => 7.76
+                        )
+
+                    [5] => Array
+                        (
+                            [racer_boat_number] => 5
+                            [racer_name] => 吉田翔悟
+                            [racer_exhibition_time] => 6.8
+                            [racer_lap_time] => 37.26
+                            [racer_turn_time] => 5.52
+                            [racer_straight_time] => 7.75
+                        )
+
+                    [6] => Array
+                        (
+                            [racer_boat_number] => 6
+                            [racer_name] => 龍田真白
+                            [racer_exhibition_time] => 6.83
+                            [racer_lap_time] => 37.7
+                            [racer_turn_time] => 5.89
+                            [racer_straight_time] => 7.6
+                        )
+
+                )
+
+        )
+
 )
 ```
 

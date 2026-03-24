@@ -5,65 +5,97 @@ declare(strict_types=1);
 namespace BVP\FukuokaScraper;
 
 /**
+ * @psalm-method static array<array-key, mixed> scrapeComments(mixed ...$arguments)
+ * @psalm-method static array<array-key, mixed> scrapeForecasts(mixed ...$arguments)
+ * @psalm-method static array<array-key, mixed> scrapeTimes(mixed ...$arguments)
+ *
+ * @method static array<array-key, mixed> scrapeComments(mixed ...$arguments)
+ * @method static array<array-key, mixed> scrapeForecasts(mixed ...$arguments)
+ * @method static array<array-key, mixed> scrapeTimes(mixed ...$arguments)
+ *
  * @author shimomo
  */
-class Scraper implements ScraperInterface
+final class Scraper implements ScraperInterface
 {
     /**
-     * @var \BVP\FukuokaScraper\ScraperInterface
+     * @psalm-var \BVP\FukuokaScraper\ScraperInterface|null
+     *
+     * @var \BVP\FukuokaScraper\ScraperInterface|null
      */
     private static ?ScraperInterface $instance;
 
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface  $scraper
-     * @return void
+     * @psalm-param \BVP\FukuokaScraper\ScraperDispatcherInterface $scraper
+     *
+     * @param \BVP\FukuokaScraper\ScraperDispatcherInterface $scraper
      */
-    public function __construct(private readonly ScraperCoreInterface $scraper)
+    public function __construct(private readonly ScraperDispatcherInterface $scraper)
     {
         //
     }
 
     /**
-     * @param  string  $name
-     * @param  array   $arguments
+     * @psalm-param non-empty-string $name
+     * @psalm-param array<int, mixed> $arguments
+     * @psalm-return array<non-empty-string, float|string|array<int, string>>
+     *
+     * @param string $name
+     * @param array $arguments
      * @return array
      */
     public function __call(string $name, array $arguments): array
     {
+        /** @psalm-var array<non-empty-string, float|string|array<int, string>> */
         return $this->scraper->$name(...$arguments);
     }
 
     /**
-     * @param  string  $name
-     * @param  array   $arguments
+     * @psalm-param non-empty-string $name
+     * @psalm-param array<int, mixed> $arguments
+     * @psalm-return array<non-empty-string, float|string|array<int, string>>
+     *
+     * @param string $name
+     * @param array $arguments
      * @return array
      */
     public static function __callStatic(string $name, array $arguments): array
     {
+        /** @psalm-var array<non-empty-string, float|string|array<int, string>> */
         return self::getInstance()->$name(...$arguments);
     }
 
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface|null  $scraperCore
+     * @psalm-param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
+     * @psalm-return \BVP\FukuokaScraper\ScraperInterface
+     *
+     * @param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
      * @return \BVP\FukuokaScraper\ScraperInterface
      */
-    public static function getInstance(?ScraperCoreInterface $scraperCore = null): ScraperInterface
+    #[\Override]
+    public static function getInstance(?ScraperDispatcherInterface $scraperDispatcher = null): ScraperInterface
     {
-        return self::$instance ??= new self($scraperCore ?? new ScraperCore());
+        return self::$instance ??= new self($scraperDispatcher ?? new ScraperDispatcher());
     }
 
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface|null  $scraperCore
+     * @psalm-param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
+     * @psalm-return \BVP\FukuokaScraper\ScraperInterface
+     *
+     * @param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
      * @return \BVP\FukuokaScraper\ScraperInterface
      */
-    public static function createInstance(?ScraperCoreInterface $scraperCore = null): ScraperInterface
+    #[\Override]
+    public static function createInstance(?ScraperDispatcherInterface $scraperDispatcher = null): ScraperInterface
     {
-        return self::$instance = new self($scraperCore ?? new ScraperCore());
+        return self::$instance = new self($scraperDispatcher ?? new ScraperDispatcher());
     }
 
     /**
+     * @psalm-return void
+     *
      * @return void
      */
+    #[\Override]
     public static function resetInstance(): void
     {
         self::$instance = null;

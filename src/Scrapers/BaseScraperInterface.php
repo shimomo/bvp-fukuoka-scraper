@@ -8,14 +8,23 @@ use BVP\FukuokaScraper\ScraperContractInterface;
 use Carbon\CarbonInterface;
 
 /**
+ * @psalm-import-type ScrapedRaces from \BVP\FukuokaScraper\ScraperType
+ *
  * @author shimomo
  */
 interface BaseScraperInterface extends ScraperContractInterface
 {
     /**
-     * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $raceDate
+     * @psalm-param \Carbon\CarbonInterface|non-empty-string|null $date
+     * @psalm-param int<1, 12>|non-empty-string|non-empty-list<int<1, 12>>|null $numbers
+     * @psalm-return ScrapedRaces
+     *
+     * @param \Carbon\CarbonInterface|string|null $date
+     * @param int|string|array|null $numbers
      * @return array
      */
-    public function scrape(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array;
+    public function scrape(
+        CarbonInterface|string|null $date = null,
+        int|string|array|null $numbers = null
+    ): array;
 }

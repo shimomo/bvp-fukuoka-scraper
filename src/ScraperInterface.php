@@ -10,18 +10,26 @@ namespace BVP\FukuokaScraper;
 interface ScraperInterface extends ScraperContractInterface
 {
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface
+     * @psalm-param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
+     * @psalm-return \BVP\FukuokaScraper\ScraperInterface
+     *
+     * @param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
      * @return \BVP\FukuokaScraper\ScraperInterface
      */
-    public static function getInstance(?ScraperCoreInterface $scraperCore = null): ScraperInterface;
+    public static function getInstance(?ScraperDispatcherInterface $scraperDispatcher = null): ScraperInterface;
 
     /**
-     * @param  \BVP\FukuokaScraper\ScraperCoreInterface
+     * @psalm-param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
+     * @psalm-return \BVP\FukuokaScraper\ScraperInterface
+     *
+     * @param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
      * @return \BVP\FukuokaScraper\ScraperInterface
      */
-    public static function createInstance(?ScraperCoreInterface $scraperCore = null): ScraperInterface;
+    public static function createInstance(?ScraperDispatcherInterface $scraperDispatcher = null): ScraperInterface;
 
     /**
+     * @psalm-return void
+     *
      * @return void
      */
     public static function resetInstance(): void;

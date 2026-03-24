@@ -5,41 +5,80 @@ declare(strict_types=1);
 namespace BVP\FukuokaScraper\Scrapers;
 
 use BVP\ScraperCore\Normalizer;
+use BVP\ScraperCore\Resolver;
 use Carbon\CarbonInterface;
 
 /**
+ * @psalm-import-type ScrapedRaces from \BVP\FukuokaScraper\ScraperType
+ *
  * @author shimomo
  */
-class TimeScraper extends BaseScraper implements TimeScraperInterface
+final class TimeScraper extends BaseScraper implements TimeScraperInterface
 {
     /**
-     * @param  string|int                           $raceNumber
-     * @param  \Carbon\CarbonInterface|string|null  $raceDate
-     * @return array
+     * @psalm-param \Carbon\CarbonInterface|non-empty-string|null $date
+     * @psalm-param int<1, 12>|non-empty-string|non-empty-list<int<1, 12>>|null $numbers
+     * @psalm-return ScrapedRaces
      *
-     * @throws \RuntimeException
+     * @param \Carbon\CarbonInterface|string|null $date
+     * @param int|string|array|null $numbers
+     * @return array
      */
-    public function scrape(string|int $raceNumber, CarbonInterface|string|null $raceDate = null): array
-    {
-        $raceUrl = $this->generateRaceUrl('tenji_info', $raceNumber, $raceDate);
-        $crawler = $this->requestPage($raceUrl);
-        $filteredData = $this->filterDataByKeys($crawler, ['.com-rname', '.col6', '.col7', '.col8', '.col9']);
-        $times = $this->validateData($filteredData, $raceUrl);
-
+    #[\Override]
+    public function scrape(
+        CarbonInterface|string|null $date = null,
+        int|string|array|null $numbers = null
+    ): array {
         $response = [];
-        foreach (range(1, 6) as $boatNumber) {
-            $racerName = $times['.com-rname'][$boatNumber - 1] ?? '';
-            $racerName = Normalizer::normalize($racerName, ['shouldRemoveAllSpaces' => true]);
-            $racerExhibitionTime = Normalizer::normalize($times['.col6'][$boatNumber] ?? 0.0);
-            $racerLapTime = Normalizer::normalize($times['.col7'][$boatNumber] ?? 0.0);
-            $racerTurnTime = Normalizer::normalize($times['.col8'][$boatNumber] ?? 0.0);
-            $racerStraightTime = Normalizer::normalize($times['.col9'][$boatNumber] ?? 0.0);
 
-            $response["boat_number_{$boatNumber}_racer_name"] = $racerName;
-            $response["boat_number_{$boatNumber}_racer_exhibition_time"] = $racerExhibitionTime;
-            $response["boat_number_{$boatNumber}_racer_lap_time"] = $racerLapTime;
-            $response["boat_number_{$boatNumber}_racer_turn_time"] = $racerTurnTime;
-            $response["boat_number_{$boatNumber}_racer_straight_time"] = $racerStraightTime;
+        $resolvedDate = Resolver::resolveDate($date);
+        $resolvedNumbers = Resolver::resolveNumbers($numbers);
+
+        foreach ($resolvedNumbers as $resolvedNumber) {
+            $url = $this->generateUrl('tenji_info', $resolvedDate, $resolvedNumber);
+            $crawler = $this->request($url);
+            $data = $this->filterByKeys($crawler, ['.com-rname', '.col6', '.col7', '.col8', '.col9']);
+            $times = $this->validate($data, ['url' => $url]);
+            sleep(1);
+
+            foreach (range(1, 6) as $racerBoatNumber) {
+                /** @psalm-var int<1, 6> $racerBoatNumber */
+
+                $racerName = $times['.com-rname'][$racerBoatNumber - 1] ?? '';
+                $racerName = Normalizer::normalize($racerName, ['shouldRemoveAllSpaces' => true]);
+                if (!is_string($racerName) || $racerName === '') {
+                    $racerName = null;
+                }
+
+                $racerExhibitionTime = Normalizer::normalize($times['.col6'][$racerBoatNumber] ?? 0.0);
+                if (!is_float($racerExhibitionTime)) {
+                    $racerExhibitionTime = null;
+                }
+
+                $racerLapTime = Normalizer::normalize($times['.col7'][$racerBoatNumber] ?? 0.0);
+                if (!is_float($racerLapTime)) {
+                    $racerLapTime = null;
+                }
+
+                $racerTurnTime = Normalizer::normalize($times['.col8'][$racerBoatNumber] ?? 0.0);
+                if (!is_float($racerTurnTime)) {
+                    $racerTurnTime = null;
+                }
+
+                $racerStraightTime = Normalizer::normalize($times['.col9'][$racerBoatNumber] ?? 0.0);
+                if (!is_float($racerStraightTime)) {
+                    $racerStraightTime = null;
+                }
+
+                $response[$resolvedNumber]['boats'][$racerBoatNumber] = [
+                    'racer_boat_number' => $racerBoatNumber,
+                    'racer_name' => $racerName,
+                    'racer_exhibition_time' => $racerExhibitionTime,
+                    'racer_lap_time' => $racerLapTime,
+                    'racer_turn_time' => $racerTurnTime,
+                    'racer_straight_time' => $racerStraightTime,
+                ];
+            }
         }
 
         return $response;
