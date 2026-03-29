@@ -24,17 +24,17 @@ namespace BVP\FukuokaScraper;
  *     reporter_today_comment_label: ?string,
  *     reporter_today_comment_text: ?string,
  *     reporter_today_focus_label: ?string,
- *     reporter_today_focus_list: ?list<mixed>,
+ *     reporter_today_focus_list: list<mixed>,
  *     reporter_today_focus_exacta_label: ?string,
- *     reporter_today_focus_exacta_list: ?list<mixed>,
+ *     reporter_today_focus_exacta_list: list<mixed>,
  *     reporter_today_focus_trifecta_label: ?string,
- *     reporter_today_focus_trifecta_list: ?list<mixed>,
+ *     reporter_today_focus_trifecta_list: list<mixed>,
  * }
  *
  * @psalm-type ScrapedTimes = array{
  *     boats?: array<int<1, 6>, array{
  *         racer_boat_number: int,
- *         racer_name: string,
+ *         racer_name: ?string,
  *         racer_exhibition_time: ?float,
  *         racer_lap_time: ?float,
  *         racer_turn_time: ?float,

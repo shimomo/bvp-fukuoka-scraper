@@ -128,11 +128,11 @@ final class ForecastScraper extends BaseScraper
      *     reporter_today_comment_label: ?string,
      *     reporter_today_comment_text: ?string,
      *     reporter_today_focus_label: ?string,
-     *     reporter_today_focus_list: ?list<mixed>,
+     *     reporter_today_focus_list: list<mixed>,
      *     reporter_today_focus_exacta_label: ?string,
-     *     reporter_today_focus_exacta_list: ?list<mixed>,
+     *     reporter_today_focus_exacta_list: list<mixed>,
      *     reporter_today_focus_trifecta_label: ?string,
-     *     reporter_today_focus_trifecta_list: ?list<mixed>,
+     *     reporter_today_focus_trifecta_list: list<mixed>,
      * }>
      *
      * @param \Carbon\CarbonInterface|string|null $date
@@ -184,23 +184,21 @@ final class ForecastScraper extends BaseScraper
 
             $reporterTodayFocusLabel = '記者予想 当日フォーカス';
             $reporterTodayFocusList = Normalizer::normalize(array_values($focus));
-            $reporterTodayFocusList = is_array($reporterTodayFocusList)
-                ? array_values($reporterTodayFocusList)
-                : null;
+            $reporterTodayFocusList = is_array($reporterTodayFocusList) ? array_values($reporterTodayFocusList) : [];
 
             $reporterTodayFocusExactaLabel = '記者予想 当日フォーカス 2連単';
-            $reporterTodayFocusExactaList = $reporterTodayFocusList === null
-                ? null
-                : array_values(array_filter($reporterTodayFocusList, function (string $reporterTodayFocus): bool {
+            $reporterTodayFocusExactaList = array_values(
+                array_filter($reporterTodayFocusList, function (string $reporterTodayFocus): bool {
                     return (substr_count($reporterTodayFocus, '-') + substr_count($reporterTodayFocus, '=')) === 1;
-                }));
+                })
+            );
 
             $reporterTodayFocusTrifectaLabel = '記者予想 当日フォーカス 3連単';
-            $reporterTodayFocusTrifectaList = $reporterTodayFocusList === null
-                ? null
-                : array_values(array_filter($reporterTodayFocusList, function (string $reporterTodayFocus): bool {
+            $reporterTodayFocusTrifectaList = array_values(
+                array_filter($reporterTodayFocusList, function (string $reporterTodayFocus): bool {
                     return (substr_count($reporterTodayFocus, '-') + substr_count($reporterTodayFocus, '=')) === 2;
-                }));
+                })
+            );
 
             $response[$resolvedNumber] = [
                 'reporter_today_comment_label' => $reporterTodayCommentLabel,
