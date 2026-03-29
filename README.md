@@ -27,7 +27,7 @@ composer require bvp/fukuoka-scraper
 
 | Method | Description |
 |---|---|
-| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | 選手コメントを取得<br> `$date` : 対象日を Carbon インスタンスまたは Carbon 対応日付文字列で指定（省略時は本日）<br>`$numbers` : 対象レース番号を 1〜12 の整数・数値文字列・配列で指定（省略時は全レース番号） |
+| `Scraper::scrapeComments(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | 選手コメントを取得<br> `$date` : 対象日を Carbon インスタンス<br>または Carbon 対応日付文字列で指定<br>（省略時は本日）<br>`$numbers` : 対象レース番号を 1〜12 の<br>整数・数値文字列・配列で指定<br>（省略時は全レース番号） |
 | `Scraper::scrapeForecasts(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | 記者予想を取得<br>同上 |
 | `Scraper::scrapeTimes(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`CarbonInterface`&#124;`string`&#124;`null $date = null,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`int`&#124;`string`&#124;`array`&#124;`null $numbers = null`<br>`)` | オリジナル展示タイムを取得<br>同上 |
 
