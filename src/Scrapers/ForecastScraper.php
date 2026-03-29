@@ -153,6 +153,7 @@ final class ForecastScraper extends BaseScraper
             $crawler = $this->request($url);
             $data = $this->filterByKeys($crawler, ['.cComment__title', '.cComment__come']);
             $forecasts = $this->validate($data, ['url' => $url]);
+            sleep(1);
 
             $focus = [];
             $focusIndex = 0;
