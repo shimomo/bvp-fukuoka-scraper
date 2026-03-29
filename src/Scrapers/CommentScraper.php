@@ -40,7 +40,6 @@ final class CommentScraper extends BaseScraper implements CommentScraperInterfac
             $crawler = $this->request($url);
             $data = $this->filterByKeys($crawler, ['.com-rname', '.box']);
             $comments = $this->validate($data, ['url' => $url]);
-            sleep(1);
 
             foreach (range(1, 6) as $racerBoatNumber) {
                 /** @psalm-var int<1, 6> $racerBoatNumber */
@@ -65,6 +64,8 @@ final class CommentScraper extends BaseScraper implements CommentScraperInterfac
                     'racer_yesterday_comment_text' => $racerYesterdayCommentText,
                 ];
             }
+
+            sleep(1);
         }
 
         return $response;

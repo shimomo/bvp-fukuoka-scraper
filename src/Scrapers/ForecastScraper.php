@@ -153,7 +153,6 @@ final class ForecastScraper extends BaseScraper
             $crawler = $this->request($url);
             $data = $this->filterByKeys($crawler, ['.cComment__title', '.cComment__come']);
             $forecasts = $this->validate($data, ['url' => $url]);
-            sleep(1);
 
             $focus = [];
             $focusIndex = 0;
@@ -213,6 +212,8 @@ final class ForecastScraper extends BaseScraper
                 'reporter_today_focus_trifecta_label' => $reporterTodayFocusTrifectaLabel,
                 'reporter_today_focus_trifecta_list' => $reporterTodayFocusTrifectaList,
             ];
+
+            sleep(1);
         }
 
         return $response;

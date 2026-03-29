@@ -39,7 +39,6 @@ final class TimeScraper extends BaseScraper implements TimeScraperInterface
             $crawler = $this->request($url);
             $data = $this->filterByKeys($crawler, ['.com-rname', '.col6', '.col7', '.col8', '.col9']);
             $times = $this->validate($data, ['url' => $url]);
-            sleep(1);
 
             foreach (range(1, 6) as $racerBoatNumber) {
                 /** @psalm-var int<1, 6> $racerBoatNumber */
@@ -79,6 +78,8 @@ final class TimeScraper extends BaseScraper implements TimeScraperInterface
                     'racer_straight_time' => $racerStraightTime,
                 ];
             }
+
+            sleep(1);
         }
 
         return $response;
