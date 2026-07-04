@@ -2,102 +2,29 @@
 
 declare(strict_types=1);
 
-namespace BVP\FukuokaScraper;
+namespace BVP\Scraper\Fukuoka;
+
+use BadMethodCallException;
+use Turnmark\Scraper\Fukuoka\Scraper as ScraperFukuoka;
 
 /**
- * @psalm-method static array<array-key, mixed> scrapeComments(mixed ...$arguments)
- * @psalm-method static array<array-key, mixed> scrapeForecasts(mixed ...$arguments)
- * @psalm-method static array<array-key, mixed> scrapeTimes(mixed ...$arguments)
- *
- * @method static array<array-key, mixed> scrapeComments(mixed ...$arguments)
- * @method static array<array-key, mixed> scrapeForecasts(mixed ...$arguments)
- * @method static array<array-key, mixed> scrapeTimes(mixed ...$arguments)
- *
  * @author shimomo
  */
-final class Scraper implements ScraperInterface
+final class Scraper
 {
     /**
-     * @psalm-var \BVP\FukuokaScraper\ScraperInterface|null
-     *
-     * @var \BVP\FukuokaScraper\ScraperInterface|null
-     */
-    private static ?ScraperInterface $instance;
-
-    /**
-     * @psalm-param \BVP\FukuokaScraper\ScraperDispatcherInterface $scraper
-     *
-     * @param \BVP\FukuokaScraper\ScraperDispatcherInterface $scraper
-     */
-    public function __construct(private readonly ScraperDispatcherInterface $scraper)
-    {
-        //
-    }
-
-    /**
-     * @psalm-param non-empty-string $name
-     * @psalm-param array<int, mixed> $arguments
-     * @psalm-return array<non-empty-string, float|string|array<int, string>>
-     *
-     * @param string $name
-     * @param array $arguments
-     * @return array
-     */
-    public function __call(string $name, array $arguments): array
-    {
-        /** @psalm-var array<non-empty-string, float|string|array<int, string>> */
-        return $this->scraper->$name(...$arguments);
-    }
-
-    /**
-     * @psalm-param non-empty-string $name
-     * @psalm-param array<int, mixed> $arguments
-     * @psalm-return array<non-empty-string, float|string|array<int, string>>
-     *
-     * @param string $name
-     * @param array $arguments
-     * @return array
+     * @param non-empty-string $name
+     * @param list<mixed> $arguments
+     * @return array<non-empty-string, mixed>|array<int<1, 12>, array<non-empty-string, mixed>>
      */
     public static function __callStatic(string $name, array $arguments): array
     {
-        /** @psalm-var array<non-empty-string, float|string|array<int, string>> */
-        return self::getInstance()->$name(...$arguments);
-    }
+        if (!method_exists(ScraperFukuoka::class, $name)) {
+            throw new BadMethodCallException(
+                sprintf('Undefined method %s::%s()', self::class, $name),
+            );
+        }
 
-    /**
-     * @psalm-param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
-     * @psalm-return \BVP\FukuokaScraper\ScraperInterface
-     *
-     * @param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
-     * @return \BVP\FukuokaScraper\ScraperInterface
-     */
-    #[\Override]
-    public static function getInstance(?ScraperDispatcherInterface $scraperDispatcher = null): ScraperInterface
-    {
-        return self::$instance ??= new self($scraperDispatcher ?? new ScraperDispatcher());
-    }
-
-    /**
-     * @psalm-param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
-     * @psalm-return \BVP\FukuokaScraper\ScraperInterface
-     *
-     * @param ?\BVP\FukuokaScraper\ScraperDispatcherInterface $scraperDispatcher
-     * @return \BVP\FukuokaScraper\ScraperInterface
-     */
-    #[\Override]
-    public static function createInstance(?ScraperDispatcherInterface $scraperDispatcher = null): ScraperInterface
-    {
-        return self::$instance = new self($scraperDispatcher ?? new ScraperDispatcher());
-    }
-
-    /**
-     * @psalm-return void
-     *
-     * @return void
-     */
-    #[\Override]
-    public static function resetInstance(): void
-    {
-        self::$instance = null;
+        return forward_static_call([ScraperFukuoka::class, $name], ...$arguments);
     }
 }
