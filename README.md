@@ -1,10 +1,8 @@
 # BVP Scraper Fukuoka
 
-[![license](https://poser.pugx.org/bvp/scraper-fukuoka/license)](https://packagist.org/packages/bvp/scraper-fukuoka)
-
 [![php](https://poser.pugx.org/bvp/scraper-fukuoka/require/php)](https://packagist.org/packages/bvp/scraper-fukuoka)
 [![stable](https://poser.pugx.org/bvp/scraper-fukuoka/v/stable)](https://packagist.org/packages/bvp/scraper-fukuoka)
-[![unstable](https://poser.pugx.org/bvp/scraper-fukuoka/v/unstable)](https://packagist.org/packages/bvp/scraper-fukuoka)
+[![license](https://poser.pugx.org/bvp/scraper-fukuoka/license)](https://packagist.org/packages/bvp/scraper-fukuoka)
 
 ## 💾 Installation
 
